@@ -1,0 +1,6 @@
+Flask
+Flask-Login
+Flask-SQLAlchemy
+Flask-SocketIO
+psycopg2-binary
+python-dotenv
