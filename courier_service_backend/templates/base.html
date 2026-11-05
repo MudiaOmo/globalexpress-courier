@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a43">
+  <title>{% block title %}GlobalExpress{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css', v=static_version('css/site.css')) }}">
+  {% block head %}{% endblock %}
+</head>
+<body{% if request.path.startswith('/admin') %} class="admin-portal"{% elif current_user.is_authenticated %} class="customer-session"{% endif %}>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('web.home') }}" aria-label="GlobalExpress home">
+      <span class="brand-mark">G</span>
+      <span>Global<span class="brand-light">Express</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      {% if request.path.startswith('/admin') %}
+        <a href="{{ url_for('web.home') }}">Customer website</a>
+        {% if current_user.is_authenticated and current_user.get_id().startswith("admin:") %}
+        <a href="{{ url_for('web.admin_dashboard') }}">Operations dashboard</a>
+        {% elif request.endpoint == 'web.admin_register' %}
+        <a class="nav-cta" href="{{ url_for('web.admin_login_page') }}">Admin sign in</a>
+        {% else %}
+        <a class="nav-cta" href="{{ url_for('web.admin_register') }}">Create admin account</a>
+        {% endif %}
+      {% elif current_user.is_authenticated %}
+        <a href="{{ url_for('web.track') }}">Track</a>
+        <a href="{{ url_for('web.customer_account') }}">My shipments</a>
+        <a href="{{ url_for('web.new_shipment') }}">Book shipment</a>
+        <form class="nav-logout" method="post" action="{{ url_for('web.customer_logout') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit">Sign out</button>
+        </form>
+      {% else %}
+        <a href="{{ url_for('web.home') }}#services">Services</a>
+        <a href="{{ url_for('web.home') }}#about">About</a>
+        <a href="{{ url_for('web.track') }}">Track</a>
+        <a href="{{ url_for('web.customer_login') }}">Sign in</a>
+        <a class="nav-cta" href="{{ url_for('web.customer_register') }}">Create account</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="{{ url_for('web.home') }}">
+      <span class="brand-mark">G</span><span>Global<span class="brand-light">Express</span></span>
+    </a>
+    <span>Moving your world, one delivery at a time.</span>
+    <span>&copy; {{ current_year }} GlobalExpress Logistics</span>
+    {% if not current_user.is_authenticated and request.path == '/' %}
+      <a class="footer-admin-link" href="{{ url_for('web.admin_login_page') }}">Admin portal</a>
+    {% endif %}
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

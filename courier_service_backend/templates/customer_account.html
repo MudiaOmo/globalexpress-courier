@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}My shipments | GlobalExpress{% endblock %}
+{% block content %}
+<section class="customer-dashboard section-wrap">
+  <div class="customer-dashboard-heading">
+    <div>
+      <span class="eyebrow eyebrow-dark">CUSTOMER PORTAL</span>
+      <h1>Hello, {{ customer.full_name }}</h1>
+      <p>View your shipment status or book another delivery.</p>
+    </div>
+    <a class="button button-primary" href="{{ url_for('web.new_shipment') }}">Book a shipment →</a>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <p class="customer-message {{ category }}" role="status">{{ message }}</p>
+    {% endfor %}
+  {% endwith %}
+
+  <div class="customer-section-heading">
+    <div><h2>Your shipments</h2><p>Use a tracking number to view the full delivery history.</p></div>
+    <a class="button button-outline" href="{{ url_for('web.track') }}">Track a shipment</a>
+  </div>
+
+  {% if shipments %}
+    <div class="customer-shipment-list">
+      {% for shipment in shipments %}
+        <article class="customer-shipment-card">
+          <div class="customer-shipment-heading">
+            <div>
+              <span class="shipment-label">TRACKING NUMBER</span>
+              <strong>{{ shipment.tracking_number }}</strong>
+            </div>
+            <span class="status-pill">{{ shipment.status }}</span>
+          </div>
+          <div class="customer-shipment-details">
+            <p><span>To</span>{{ shipment.receiver_name }} · {{ shipment.receiver_country }}</p>
+            <p><span>Parcel</span>{{ shipment.parcel_description }} · {{ "{:g}".format(shipment.weight) }} kg</p>
+          </div>
+          <a class="shipment-track-link" href="{{ url_for('web.track', tracking_number=shipment.tracking_number) }}">View tracking history →</a>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="customer-empty-state">
+      <span class="service-icon">◎</span>
+      <h2>No shipments yet</h2>
+      <p>Book your first delivery and its tracking number will appear here.</p>
+      <a class="button button-primary" href="{{ url_for('web.new_shipment') }}">Book your first shipment →</a>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

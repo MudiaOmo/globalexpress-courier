@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Track shipment | GlobalExpress{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="section-wrap">
+    <span class="eyebrow">SHIPMENT TRACKING</span>
+    <h1>Every mile, <span>in view.</span></h1>
+    <p>Get the latest update on your GlobalExpress delivery.</p>
+  </div>
+</section>
+<section class="section-wrap tracking-page">
+  <form class="track-form track-form-page" action="{{ url_for('web.track') }}" method="get">
+    <label class="sr-only" for="tracking_number">Tracking number</label>
+    <input id="tracking_number" name="tracking_number" value="{{ tracking_number }}" placeholder="Enter tracking number" required>
+    <button class="button button-primary" type="submit">Track shipment <span aria-hidden="true">→</span></button>
+  </form>
+  {% if searched and shipment %}
+  <article class="shipment-result">
+    <div class="result-topline"><span class="eyebrow eyebrow-dark">SHIPMENT STATUS</span><span class="status-pill">{{ shipment.status }}</span></div>
+    <div class="result-summary">
+      <div><small>TRACKING NUMBER</small><strong>{{ shipment.tracking_number }}</strong></div>
+      <div><small>DESTINATION</small><strong>{{ shipment.receiver_country }}</strong></div>
+    </div>
+    <div class="tracking-flight" aria-label="Animated shipment progress indicator">
+      <div class="flight-route">
+        <span class="flight-origin" aria-hidden="true"></span>
+        <span class="flight-plane" aria-hidden="true">✈</span>
+        <span class="flight-destination" aria-hidden="true"></span>
+      </div>
+      <span class="flight-caption">Your shipment is moving through its delivery journey</span>
+    </div>
+    {% if latest_location %}
+    <div class="latest-location">
+      <span><strong>Latest reported location:</strong> {{ latest_location }}</span>
+      <a href="{{ maps_url }}" target="_blank" rel="noopener noreferrer" aria-label="View latest reported location on Google Maps">
+        <span class="maps-pin" aria-hidden="true">●</span> Open in Google Maps ↗
+      </a>
+      <small>Map opens to the reported location; it is not live GPS tracking.</small>
+    </div>
+    {% endif %}
+    <h2>Tracking history</h2>
+    {% if shipment.tracking_events %}
+    <ol class="timeline">
+      {% for event in shipment.tracking_events|reverse %}
+      <li class="timeline-item {% if loop.first %}timeline-current{% endif %}">
+        <span class="timeline-dot"></span>
+        <div><strong>{{ event.status }}</strong>
+          {% if event.location %}<span class="timeline-location">{{ event.location }}</span>{% endif %}
+          {% if event.description %}<p>{{ event.description }}</p>{% endif %}
+          <time>{{ event.created_at.strftime("%b %d, %Y · %I:%M %p") }}</time>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="empty-note">There are no tracking updates yet.</p>
+    {% endif %}
+  </article>
+  {% elif searched %}
+  <div class="notice notice-error"><strong>We couldn't find that shipment.</strong><span>Double-check the tracking number and try again.</span></div>
+  {% else %}
+  <div class="tracking-help"><span class="service-icon">◎</span><h2>Ready when you are</h2><p>Your tracking number is included in your shipment confirmation.</p></div>
+  {% endif %}
+</section>
+{% endblock %}

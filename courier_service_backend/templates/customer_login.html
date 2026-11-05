@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Customer sign in | GlobalExpress{% endblock %}
+{% block content %}
+<section class="customer-auth-page customer-login-page">
+  <div class="customer-login-background" aria-hidden="true">
+    <img class="login-background-image login-background-image-1" src="{{ url_for('static', filename='images/shipping/container-yard.png') }}" alt="">
+    <img class="login-background-image login-background-image-2" src="{{ url_for('static', filename='images/shipping/air-cargo-loading.png') }}" alt="">
+    <img class="login-background-image login-background-image-3" src="{{ url_for('static', filename='images/shipping/aircraft-above-containers.png') }}" alt="">
+    <img class="login-background-image login-background-image-4" src="{{ url_for('static', filename='images/shipping/ocean-shipping.png') }}" alt="">
+    <img class="login-background-image login-background-image-5" src="{{ url_for('static', filename='images/shipping/cargo-aircraft.png') }}" alt="">
+    <img class="login-background-image login-background-image-6" src="{{ url_for('static', filename='images/shipping/air-freight.png') }}" alt="">
+    <img class="login-background-image login-background-image-7" src="{{ url_for('static', filename='images/shipping/airport-delivery.png') }}" alt="">
+  </div>
+  <div class="login-flight-path" aria-hidden="true">
+    <span class="login-flight-trail"></span>
+    <span class="login-flight-plane">✈</span>
+  </div>
+  <div class="customer-auth-card">
+    <span class="eyebrow eyebrow-dark">CUSTOMER PORTAL</span>
+    <h1>Welcome back.</h1>
+    <p>Sign in to book a shipment or view the progress of your deliveries.</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <p class="customer-message {{ category }}" role="status">{{ message }}</p>
+      {% endfor %}
+    {% endwith %}
+    <form class="form-stack" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="email">Email address</label>
+      <input id="email" name="email" type="email" autocomplete="email" required>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+      <button class="button button-primary button-wide" type="submit">Sign in →</button>
+    </form>
+    <p class="auth-switch">New to GlobalExpress? <a href="{{ url_for('web.customer_register') }}">Create an account</a></p>
+  </div>
+</section>
+{% endblock %}

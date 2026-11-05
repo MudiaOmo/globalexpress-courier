@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Admin sign in | GlobalExpress{% endblock %}
+{% block content %}
+<section class="admin-page">
+  <div class="admin-login-card">
+    <div class="admin-login-mark">G</div>
+    <span class="eyebrow eyebrow-dark">GLOBAL EXPRESS OPERATIONS</span>
+    <h1>Welcome back.</h1>
+    <p>Sign in to manage shipments and delivery updates.</p>
+    <form id="admin-login-form" class="form-stack">
+      <label for="email">Admin email</label>
+      <input id="email" name="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+      <p class="form-message" id="login-message" role="alert"></p>
+      <button class="button button-primary button-wide" type="submit">Sign in to dashboard <span aria-hidden="true">→</span></button>
+    </form>
+    <a class="back-link" href="{{ url_for('web.home') }}">← Customer website</a>
+    <p class="auth-switch">Need an admin account? <a href="{{ url_for('web.admin_register') }}">Admin account registration</a></p>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/admin-login.js', v=static_version('js/admin-login.js')) }}" defer></script>{% endblock %}

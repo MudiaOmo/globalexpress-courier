@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Create admin account | GlobalExpress{% endblock %}
+{% block content %}
+<section class="admin-page">
+  <div class="admin-login-card">
+    <div class="admin-login-mark">G</div>
+    <span class="eyebrow eyebrow-dark">GLOBAL EXPRESS OPERATIONS</span>
+    <h1>Create admin account.</h1>
+    {% if first_admin_setup and not token_required %}
+      <p>No admin account exists yet. Create the first admin account to finish setting up the operations portal.</p>
+    {% elif registration_enabled %}
+      <p>Admin accounts require the private registration token configured by the site owner.</p>
+    {% else %}
+      <p class="customer-message error" role="status">Admin registration is disabled. Ask the site owner to set <code>ADMIN_REGISTRATION_TOKEN</code> in the server environment, then reload this page.</p>
+    {% endif %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <p class="customer-message {{ category }}" role="status">{{ message }}</p>
+      {% endfor %}
+    {% endwith %}
+    {% if registration_enabled %}
+    <form class="form-stack" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="email">Admin email</label>
+      <input id="email" name="email" type="email" autocomplete="username" maxlength="150" required>
+      <label for="password">Password (at least 12 characters)</label>
+      <input id="password" name="password" type="password" autocomplete="new-password" minlength="12" required>
+      <label for="confirm_password">Confirm password</label>
+      <input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password" minlength="12" required>
+      {% if token_required %}
+        <label for="registration_token">Admin registration token</label>
+        <input id="registration_token" name="registration_token" type="password" autocomplete="off" required>
+      {% endif %}
+      <button class="button button-primary button-wide" type="submit">Create admin account →</button>
+    </form>
+    {% endif %}
+    <a class="back-link" href="{{ url_for('web.admin_login_page') }}">← Back to admin sign in</a>
+  </div>
+</section>
+{% endblock %}

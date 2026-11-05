@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Book a shipment | GlobalExpress{% endblock %}
+{% block content %}
+<section class="customer-dashboard section-wrap">
+  <div class="customer-dashboard-heading">
+    <div>
+      <span class="eyebrow eyebrow-dark">NEW DELIVERY</span>
+      <h1>Book a shipment</h1>
+      <p>Enter sender, receiver, and parcel details to create a trackable shipment.</p>
+    </div>
+    <a class="button button-outline" href="{{ url_for('web.customer_account') }}">← My shipments</a>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <p class="customer-message {{ category }}" role="status">{{ message }}</p>
+    {% endfor %}
+  {% endwith %}
+
+  <form class="booking-card booking-form" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="booking-fields">
+      <label>Sender name
+        <input name="sender_name" maxlength="120" autocomplete="name" value="{{ form_values.get('sender_name', '') }}" required>
+      </label>
+      <label>Sender country
+        <input name="sender_country" maxlength="100" value="{{ form_values.get('sender_country', '') }}" required>
+      </label>
+      <label>Receiver name
+        <input name="receiver_name" maxlength="120" value="{{ form_values.get('receiver_name', '') }}" required>
+      </label>
+      <label>Receiver country
+        <input name="receiver_country" maxlength="100" value="{{ form_values.get('receiver_country', '') }}" required>
+      </label>
+      <label class="booking-wide">Delivery address
+        <input name="delivery_address" maxlength="255" autocomplete="street-address" value="{{ form_values.get('delivery_address', '') }}" required>
+      </label>
+      <label class="booking-wide">Parcel description
+        <input name="parcel_description" maxlength="255" value="{{ form_values.get('parcel_description', '') }}" required>
+      </label>
+      <label>Weight (kg)
+        <input name="weight" type="number" min="0.01" max="1000" step="0.01" value="{{ form_values.get('weight', '') }}" required>
+      </label>
+    </div>
+    <button class="button button-primary" type="submit">Book shipment →</button>
+  </form>
+</section>
+{% endblock %}

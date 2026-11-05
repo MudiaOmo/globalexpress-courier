@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Shipment dashboard | GlobalExpress{% endblock %}
+{% block content %}
+<section class="dashboard-wrap">
+  <div class="dashboard-heading">
+    <div><span class="eyebrow eyebrow-dark">OPERATIONS</span><h1>Shipment dashboard</h1><p>Welcome, {{ admin.email }}. Review deliveries and post tracking updates.</p></div>
+    <button class="button button-outline" id="admin-logout" type="button">Sign out</button>
+  </div>
+  <div class="dashboard-stats dashboard-stats-expanded">
+    <div class="stat-card"><span>Total shipments</span><strong id="shipment-count">—</strong></div>
+    <div class="stat-card"><span>Active shipments</span><strong id="active-count">—</strong></div>
+    <div class="stat-card"><span>Delivered</span><strong id="delivered-count">—</strong></div>
+    <div class="stat-card"><span>Latest update</span><strong id="latest-status">Loading…</strong></div>
+  </div>
+  <div class="dashboard-section-heading">
+    <div><h2>All shipments</h2><p>Search, filter, inspect tracking history, and post updates.</p></div>
+    <div class="dashboard-actions">
+      <button class="button button-outline" id="export-shipments" type="button">↓ Export CSV</button>
+      <button class="button button-outline" id="refresh-shipments" type="button">↻ Refresh</button>
+    </div>
+  </div>
+  <div class="shipment-filters" role="search">
+    <label for="shipment-search">Search shipments</label>
+    <input id="shipment-search" type="search" placeholder="Tracking number, customer, route, parcel…">
+    <label for="shipment-status-filter">Status</label>
+    <select id="shipment-status-filter">
+      <option value="">All statuses</option>
+    </select>
+    <span id="shipment-results-count" aria-live="polite">Loading shipments…</span>
+  </div>
+  <p class="dashboard-message" id="dashboard-message" role="status"></p>
+  <div class="shipment-list" id="shipment-list"><div class="loading-card">Loading shipments…</div></div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/admin-dashboard.js', v=static_version('js/admin-dashboard.js')) }}" defer></script>{% endblock %}

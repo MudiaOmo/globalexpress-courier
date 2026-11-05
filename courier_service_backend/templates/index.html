@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}GlobalExpress | Courier, made simple{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy hero-content">
+    <span class="eyebrow"><span class="eyebrow-dot"></span> Delivering across borders</span>
+    <h1>Your world,<br><span>within reach.</span></h1>
+    <p class="hero-lede">Reliable international shipping with real-time updates at every step. Send with confidence, wherever life takes you.</p>
+    <a class="button button-light" href="#track">Track a shipment <span aria-hidden="true">→</span></a>
+    <a class="button button-account" href="{{ url_for('web.customer_register') }}">Create customer account</a>
+    <div class="hero-proof">
+      <div class="proof-avatars" aria-hidden="true"><span>G</span><span>+</span><span>+</span></div>
+      <span>Trusted for every delivery</span>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="orbit orbit-one"></div>
+    <div class="orbit orbit-two"></div>
+    <div class="globe">G</div>
+    <div class="route-line"></div>
+    <div class="float-card card-origin"><span class="pin">●</span><span><b>On the move</b><small>Across the globe</small></span></div>
+    <div class="float-card card-destination"><span class="check">✓</span><span><b>Handled with care</b><small>Door to door</small></span></div>
+    <div class="spark spark-one">✦</div><div class="spark spark-two">✦</div>
+  </div>
+</section>
+
+<section class="track-section section-wrap" id="track">
+  <div class="track-card">
+    <div>
+      <span class="eyebrow eyebrow-dark">STAY IN THE LOOP</span>
+      <h2>Where's your package?</h2>
+      <p>Enter your tracking number for the latest delivery update.</p>
+    </div>
+    <form class="track-form" action="{{ url_for('web.track') }}" method="get">
+      <label class="sr-only" for="tracking_number">Tracking number</label>
+      <input id="tracking_number" name="tracking_number" placeholder="e.g. GEX1234567890" required>
+      <button class="button button-primary" type="submit">Track package <span aria-hidden="true">→</span></button>
+    </form>
+  </div>
+</section>
+
+<section class="section-wrap services" id="services">
+  <div class="section-heading">
+    <span class="eyebrow eyebrow-dark">DELIVERY WITHOUT THE DOUBT</span>
+    <h2>Good things are on the way.</h2>
+    <p>We make shipping simple, clear, and dependable from the first mile to the last.</p>
+  </div>
+  <div class="service-grid">
+    <article class="service-card"><span class="service-icon">↗</span><h3>Worldwide reach</h3><p>Send parcels across borders with a team that keeps the journey moving.</p></article>
+    <article class="service-card"><span class="service-icon">◎</span><h3>Live tracking</h3><p>Follow your delivery milestones and know what is happening along the way.</p></article>
+    <article class="service-card"><span class="service-icon">♡</span><h3>Handled with care</h3><p>From booking to arrival, your shipment gets the attention it deserves.</p></article>
+  </div>
+</section>
+
+<section class="shipping-gallery-section" aria-labelledby="shipping-gallery-title">
+  <div class="section-wrap">
+    <div class="section-heading">
+      <span class="eyebrow eyebrow-dark">CONNECTED AROUND THE WORLD</span>
+      <h2 id="shipping-gallery-title">Every journey has a story.</h2>
+      <p>From busy container ports to air freight, explore the many ways deliveries keep moving.</p>
+    </div>
+    <div class="shipping-gallery">
+      <figure class="shipping-gallery-card shipping-gallery-card-featured">
+        <img src="{{ url_for('static', filename='images/shipping/container-yard.png') }}" alt="Cargo containers being moved at an international shipping yard" loading="lazy">
+        <figcaption>Moving cargo through the port</figcaption>
+      </figure>
+      <figure class="shipping-gallery-card">
+        <img src="{{ url_for('static', filename='images/shipping/air-cargo-loading.png') }}" alt="Freight being loaded onto an aircraft" loading="lazy">
+        <figcaption>Careful air-freight handling</figcaption>
+      </figure>
+      <figure class="shipping-gallery-card">
+        <img src="{{ url_for('static', filename='images/shipping/aircraft-above-containers.png') }}" alt="Airplane flying above colorful shipping containers" loading="lazy">
+        <figcaption>Connections across borders</figcaption>
+      </figure>
+      <figure class="shipping-gallery-card">
+        <img src="{{ url_for('static', filename='images/shipping/ocean-shipping.png') }}" alt="Cargo ship crossing an ocean route" loading="lazy">
+        <figcaption>Global routes by sea</figcaption>
+      </figure>
+      <figure class="shipping-gallery-card">
+        <img src="{{ url_for('static', filename='images/shipping/cargo-aircraft.png') }}" alt="Cargo aircraft in flight" loading="lazy">
+        <figcaption>Air routes that bring us closer</figcaption>
+      </figure>
+      <figure class="shipping-gallery-card">
+        <img src="{{ url_for('static', filename='images/shipping/air-freight.png') }}" alt="Air freight aircraft viewed from inside a cargo space" loading="lazy">
+        <figcaption>Ready for the next destination</figcaption>
+      </figure>
+      <figure class="shipping-gallery-card">
+        <img src="{{ url_for('static', filename='images/shipping/airport-delivery.png') }}" alt="Freight aircraft and cargo on an airport apron" loading="lazy">
+        <figcaption>From the airport to the doorstep</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="about-band" id="about">
+  <div class="section-wrap about-inner">
+    <div><span class="eyebrow">A BETTER WAY TO SEND</span><h2>More than a delivery.<br>A little peace of mind.</h2></div>
+    <p>GlobalExpress connects people and businesses with straightforward courier service. Book a shipment, follow its progress, and feel closer to the people waiting at the other end.</p>
+  </div>
+</section>
+{% endblock %}
